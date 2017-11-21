@@ -1,4 +1,5 @@
 var Songs = require('../models/song')
+var Playlists = require('../models/playlist')
 var router = require('express').Router()
 
 // GET all mytunes songs
@@ -36,7 +37,7 @@ router.get('/api/playlists/:playlistId/songs', (req, res, next) => {
 
 // GET all mytunes playlists
 router.get('/api/playlists/', (req, res, next) => {
-    Songs.find({})
+    Playlists.find({})
         .then(playlists => {
             res.send(playlists)
         })
@@ -47,7 +48,7 @@ router.get('/api/playlists/', (req, res, next) => {
 
 // GET mytunes playlist at specific id
 router.get('/api/playlists/:playlistId', (req, res, next) => {
-    Songs.findById(req.params.playlistId)
+    Playlists.findById(req.params.playlistId)
         .then(playlist => {
             res.send(playlist)
         })
@@ -61,6 +62,17 @@ router.post('/api/songs/', (req, res, next) => {
     Songs.create(req.body)
         .then(song => {
             res.send(song)
+        })
+        .catch(err => {
+            res.status(400).send({ Error: err })
+        })
+})
+
+// POST new playlist to mytunes
+router.post('/api/playlists/', (req, res, next) => {
+    Playlists.create(req.body)
+        .then(playlist => {
+            res.send(playlist)
         })
         .catch(err => {
             res.status(400).send({ Error: err })
@@ -81,8 +93,8 @@ router.delete('/api/songs/:songId', (req, res, next) => {
 
 // PUT mytunes song to edit rank
 // need to rewrite to target specific playlist?
-router.put('/api/songs/:id', (req, res, next) => {
-    Songs.findByIdAndUpdate(req.params.id, req.body)
+router.put('/api/songs/:songId', (req, res, next) => {
+    Songs.findByIdAndUpdate(req.params.songId, req.body)
         .then(() => {
             res.send('Song successfully updated.')
         })
