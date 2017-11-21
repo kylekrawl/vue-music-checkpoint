@@ -2,13 +2,19 @@
   <div class="home">
     <!-- YOU WILL PROBABLY END UP WITH SOMETHING LIKE THIS -->
     <my-tunes class="my-tunes"></my-tunes>
-    <itunes class="itunes"></itunes>
+    <i-tunes class="i-tunes"></i-tunes>
   </div>
 </template>
 
 <script>
+import ITunes from './ITunes'
+import MyTunes from './MyTunes'
 export default {
-  name: 'home',
+  name: 'Home',
+  components: {
+    MyTunes,
+    ITunes
+  },
   data () {
     return {
       
@@ -26,7 +32,7 @@ export default {
   background: green;
 }
 
-.itunes{
+.i-tunes{
   display: inline-block;
   background: red;
   min-height: 500px;

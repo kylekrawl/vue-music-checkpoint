@@ -16,18 +16,33 @@ var store = new vuex.Store({
     }
   },
   actions: {
-    getMusicByArtist({ commit, dispatch }, artist) {
+    getMusicByArtist({ commit, dispatch }, search) {
       var url = '//bcw-getter.herokuapp.com/?url=';
-      var url2 = 'https://itunes.apple.com/search?term=' + artist;
+      var url2 = 'https://itunes.apple.com/search?term=' + search.artist;
       var apiUrl = url + encodeURIComponent(url2);
-      $.get(apiUrl).then(data => {
-        commit('setResults', data)
+      $.getJSON(apiUrl).then(data => {
+        console.log('iTunes data: ', data)
+        var songs = data.results.map(function (song) {
+          return {
+            title: song.trackName,
+            albumArt: song.artworkUrl100,
+            artist: song.artistName,
+            album: song.collectionName,
+            albumPrice: song.collectionPrice,
+            preview: song.previewUrl,
+            fileType: song.kind,
+            genre: song.primaryGenreName
+          }
+        })
+        console.log('mapped iTunes songs: ', songs)
+        commit('setResults', songs)
       })
     },
+    
     getMyTunes({ commit, dispatch }) {
       var url = 'http://localhost:3000/api/songs'
       //this should send a get request to your server to return the list of saved tunes
-      $.getJSON(url).then(data => {
+      $.get(url).then(data => {
         console.log('myTunes data: ', data)
       })
     },
