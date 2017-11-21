@@ -12,6 +12,7 @@ var store = new vuex.Store({
   mutations: {
     setResults(state, results){
       state.results = results
+      console.log('results: ', results)
     }
   },
   actions: {
@@ -24,7 +25,9 @@ var store = new vuex.Store({
       })
     },
     getMyTunes({commit, dispatch}){
+      var url = 'http://localhost:3000/api/songs'
       //this should send a get request to your server to return the list of saved tunes
+      $.get()
     },
     addToMyTunes({commit, dispatch}, track){
       //this will post to your server adding a new track to your tunes
