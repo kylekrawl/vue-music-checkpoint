@@ -38,7 +38,7 @@ var store = new vuex.Store({
         commit('setResults', songs)
       })
     },
-    
+
     getMyTunes({ commit, dispatch }) {
       var url = 'http://localhost:3000/api/songs'
       //this should send a get request to your server to return the list of saved tunes
@@ -46,16 +46,34 @@ var store = new vuex.Store({
         console.log('myTunes data: ', data)
       })
     },
-    addToMyTunes({ commit, dispatch }, track) {
+    addToMyTunes({ commit, dispatch }, song) {
       //this will post to your server adding a new track to your tunes
+      var url = 'http://localhost:3000/api/songs'
+      var data = {
+        title: song.title,
+        albumArt: song.albumArt,
+        artist: song.artist,
+        album: song.album,
+        albumPrice: song.albumPrice,
+        preview: song.preview,
+        fileType: song.fileType,
+        genre: song.genre,
+        playlistId: '5a14c1150d26d63be7193a88',
+        rank: 0
+      }
+      console.log('data to post: ', data)
+      $.post(url, data)
+        .then(res => {
+          console.log('addToMyTunes response: ', res)
+        })
     },
-    removeTrack({ commit, dispatch }, track) {
+    removeTrack({ commit, dispatch }, song) {
       //Removes track from the database with delete
     },
-    promoteTrack({ commit, dispatch }, track) {
+    promoteTrack({ commit, dispatch }, song) {
       //this should increase the position / upvotes and downvotes on the track
     },
-    demoteTrack({ commit, dispatch }, track) {
+    demoteTrack({ commit, dispatch }, song) {
       //this should decrease the position / upvotes and downvotes on the track
     }
 

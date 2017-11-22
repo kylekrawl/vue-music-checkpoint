@@ -24,7 +24,7 @@ var schema = new mongoose.Schema({
     albumArt: { type: String, required: true },
     artist: { type: String, required: true },
     album: { type: String, required: true },
-    albumPrice: { type: String, required: true },
+    albumPrice: { type: Number, required: true },
     preview: { type: String, required: true },
     fileType: { type: String, required: true },
     genre: { type: String, required: true },

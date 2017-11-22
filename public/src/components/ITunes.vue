@@ -25,6 +25,7 @@
                                 <p class="album-title">{{song.album}}</p>
                                 <audio :src="song.preview" controls></audio>
                                 <p class="album-price">Album Price: ${{song.albumPrice}}</p>
+                                <i class="glyphicon glyphicon-plus pull-right" @click="addToMyTunes(song)"></i>
                             </div>
                         </div>
                     </div>
@@ -39,12 +40,17 @@
         name: 'ITunes',
         data() {
             return {
-                search: {}
+                search: {},
+                myTune: {}
             }
         },
         methods: {
             getMusicByArtist() {
                 this.$store.dispatch('getMusicByArtist', this.search) //value from input
+            },
+            addToMyTunes(song) {
+                console.log('Clicked to add: ', song.title)
+                this.$store.dispatch('addToMyTunes', song)
             }
         },
         computed: {
