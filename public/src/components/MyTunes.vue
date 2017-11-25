@@ -12,6 +12,9 @@
                                 <p class="album-title">{{myTune.album}}</p>
                                 <!--<audio :src="myTune.preview" controls></audio>-->
                                 <p class="album-price">Album Price: ${{myTune.albumPrice}}</p>
+                                <p class="song-rank">Rank: {{myTune.rank}}</p>
+                                <i class="glyphicon glyphicon-chevron-up pull-right" @click="promoteTrack(myTune)"></i>
+                                <i class="glyphicon glyphicon-chevron-down pull-right" @click="demoteTrack(myTune)"></i>
                                 <i class="glyphicon glyphicon-trash pull-right" @click="removeTrack(myTune)"></i>
                             </div>
                         </div>
@@ -37,6 +40,16 @@
             removeTrack(song) {
                 console.log('Clicked to remove: ', song.title)
                 this.$store.dispatch('removeTrack', song)
+            },
+            promoteTrack(song) {
+                console.log('Clicked to promote: ', song.title)
+                song.rank += 1
+                this.$store.dispatch('promoteTrack', song)
+            },
+            demoteTrack(song) {
+                console.log('Clicked to demote: ', song.title)
+                song.rank -= 1
+                this.$store.dispatch('demoteTrack', song)
             }
         },
         computed: {

@@ -42,6 +42,10 @@ var store = new vuex.Store({
       console.log('itunes results: ', data)
     },
     setMyTunes(state, data) {
+      // sort song array by rank
+      data = data.sort(function(a, b){
+        return b.rank - a.rank
+      })
       state.myTunes = data
       console.log('myTunes results: ', data)
     }
@@ -75,6 +79,7 @@ var store = new vuex.Store({
       $.get(url).then(data => {
         console.log('myTunes data: ', data)
         commit('setMyTunes', data)
+        //commit sort by rank mutation?
       })
     },
     addToMyTunes({ commit, dispatch }, song) {
@@ -113,9 +118,31 @@ var store = new vuex.Store({
     },
     promoteTrack({ commit, dispatch }, song) {
       //this should increase the position / upvotes and downvotes on the track
+      var url = `http://localhost:3000/api/songs/${song._id}`
+      $.ajax({
+        method: 'PUT',
+        contentType: 'application/json',
+        url: url, //baseUrl + '/' + i,
+        data: JSON.stringify(song)
+      })
+        .then(res => {
+          console.log('promoteTrack response: ', res)
+          dispatch('getMyTunes')
+        })
     },
     demoteTrack({ commit, dispatch }, song) {
       //this should decrease the position / upvotes and downvotes on the track
+      var url = `http://localhost:3000/api/songs/${song._id}`
+      $.ajax({
+        method: 'PUT',
+        contentType: 'application/json',
+        url: url, //baseUrl + '/' + i,
+        data: JSON.stringify(song)
+      })
+        .then(res => {
+          console.log('demoteTrack response: ', res)
+          dispatch('getMyTunes')
+        })
     }
 
   }
