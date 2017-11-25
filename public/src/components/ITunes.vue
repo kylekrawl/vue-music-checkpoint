@@ -50,6 +50,7 @@
             },
             addToMyTunes(song) {
                 console.log('Clicked to add: ', song.title)
+                song.rank = this.$store.state.myTunes.length
                 this.$store.dispatch('addToMyTunes', song)
             }
         },

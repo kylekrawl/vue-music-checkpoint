@@ -33,7 +33,7 @@
 
             }
         },
-        mounted(){
+        mounted() {
             this.$store.dispatch('getMyTunes')
         },
         methods: {
@@ -43,13 +43,37 @@
             },
             promoteTrack(song) {
                 console.log('Clicked to promote: ', song.title)
-                song.rank += 1
-                this.$store.dispatch('promoteTrack', song)
+                if (song.rank < this.$store.state.myTunes.length - 1) {
+                    song.rank += 1
+                    var conflictSong = {}
+                    for (var i = 0; i < this.$store.state.myTunes.length; i++) {
+                        var compareSong = this.$store.state.myTunes[i]
+                        if (compareSong.rank == song.rank && compareSong._id != song._id) {
+                            conflictSong = compareSong
+                            break
+                        }
+                    }
+                    console.log('song: ', song, ' conflict: ', conflictSong)
+
+                    this.$store.dispatch('promoteTrack', { song, conflictSong })
+                }
             },
             demoteTrack(song) {
                 console.log('Clicked to demote: ', song.title)
-                song.rank -= 1
-                this.$store.dispatch('demoteTrack', song)
+                if (song.rank > 0) {
+                    song.rank -= 1
+                    var conflictSong = {}
+                    for (var i = 0; i < this.$store.state.myTunes.length; i++) {
+                        var compareSong = this.$store.state.myTunes[i]
+                        if (compareSong.rank == song.rank && compareSong._id != song._id) {
+                            conflictSong = compareSong
+                            break
+                        }
+                    }
+                    console.log('song: ', song, ' conflict: ', conflictSong)
+
+                    this.$store.dispatch('demoteTrack', { song, conflictSong })
+                }
             }
         },
         computed: {

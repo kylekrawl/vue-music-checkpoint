@@ -21,20 +21,7 @@ vue.use(vuex)
 var store = new vuex.Store({
   state: {
     myTunes: [],
-    results: [
-      
-      {
-        title: "Glory Box",
-        albumArt: "//placehold.it/100x100",
-        artist: "Portishead",
-        album: "Dummy",
-        albumPrice: 10.00,
-        preview: "<broken>",
-        fileType: "song",
-        genre:"Trip Hop"
-      }
-     
-    ]
+    results: []
   },
   mutations: {
     setResults(state, data) {
@@ -95,7 +82,7 @@ var store = new vuex.Store({
         fileType: song.fileType,
         genre: song.genre,
         playlistId: '5a14c1150d26d63be7193a88',
-        rank: 0
+        rank: song.rank
       }
       console.log('data to post: ', data)
       $.post(url, data)
@@ -116,32 +103,42 @@ var store = new vuex.Store({
         })
       //Removes track from the database with delete
     },
-    promoteTrack({ commit, dispatch }, song) {
+    promoteTrack({ commit, dispatch }, payload) {
       //this should increase the position / upvotes and downvotes on the track
-      var url = `http://localhost:3000/api/songs/${song._id}`
+      var url = `http://localhost:3000/api/songs/${payload.song._id}`
       $.ajax({
         method: 'PUT',
         contentType: 'application/json',
         url: url, //baseUrl + '/' + i,
-        data: JSON.stringify(song)
+        data: JSON.stringify(payload.song)
       })
         .then(res => {
           console.log('promoteTrack response: ', res)
-          dispatch('getMyTunes')
+          if (payload.conflictSong.hasOwnProperty('rank')) {
+            payload.conflictSong.rank -= 1
+            dispatch('demoteTrack', { song:payload.conflictSong, conflictSong:{} })
+          } else {
+            dispatch('getMyTunes')
+          }
         })
     },
-    demoteTrack({ commit, dispatch }, song) {
+    demoteTrack({ commit, dispatch }, payload) {
       //this should decrease the position / upvotes and downvotes on the track
-      var url = `http://localhost:3000/api/songs/${song._id}`
+      var url = `http://localhost:3000/api/songs/${payload.song._id}`
       $.ajax({
         method: 'PUT',
         contentType: 'application/json',
         url: url, //baseUrl + '/' + i,
-        data: JSON.stringify(song)
+        data: JSON.stringify(payload.song)
       })
         .then(res => {
           console.log('demoteTrack response: ', res)
-          dispatch('getMyTunes')
+          if (payload.conflictSong.hasOwnProperty('rank')) {
+            payload.conflictSong.rank += 1
+            dispatch('promoteTrack', { song:payload.conflictSong, conflictSong:{} })
+          } else {
+            dispatch('getMyTunes')
+          }
         })
     }
 
