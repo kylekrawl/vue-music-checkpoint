@@ -4,15 +4,46 @@ import $ from 'jquery'
 
 vue.use(vuex)
 
+// Dummy mapped itunes api data: 
+/*
+{
+  title: "Glory Box",
+  albumArt: "//placehold.it/100x100",
+  artist: "Portishead",
+  album: "Dummy",
+  albumPrice: 10.00,
+  preview: "<broken>",
+  fileType: "song",
+  genre:"Trip Hop"
+}
+*/
+
 var store = new vuex.Store({
   state: {
     myTunes: [],
-    results: []
+    results: [
+      
+      {
+        title: "Glory Box",
+        albumArt: "//placehold.it/100x100",
+        artist: "Portishead",
+        album: "Dummy",
+        albumPrice: 10.00,
+        preview: "<broken>",
+        fileType: "song",
+        genre:"Trip Hop"
+      }
+     
+    ]
   },
   mutations: {
-    setResults(state, results) {
-      state.results = results
-      console.log('results: ', results)
+    setResults(state, data) {
+      state.results = data
+      console.log('itunes results: ', data)
+    },
+    setMyTunes(state, data) {
+      state.myTunes = data
+      console.log('myTunes results: ', data)
     }
   },
   actions: {
@@ -38,12 +69,12 @@ var store = new vuex.Store({
         commit('setResults', songs)
       })
     },
-
     getMyTunes({ commit, dispatch }) {
       var url = 'http://localhost:3000/api/songs'
       //this should send a get request to your server to return the list of saved tunes
       $.get(url).then(data => {
         console.log('myTunes data: ', data)
+        commit('setMyTunes', data)
       })
     },
     addToMyTunes({ commit, dispatch }, song) {
@@ -65,9 +96,19 @@ var store = new vuex.Store({
       $.post(url, data)
         .then(res => {
           console.log('addToMyTunes response: ', res)
+          dispatch('getMyTunes')
         })
     },
     removeTrack({ commit, dispatch }, song) {
+      var url = `http://localhost:3000/api/songs/${song._id}`
+      $.ajax({
+        url: url,
+        method: 'DELETE'
+      })
+        .then(res => {
+          console.log('removeTrack response: ', res)
+          dispatch('getMyTunes')
+        })
       //Removes track from the database with delete
     },
     promoteTrack({ commit, dispatch }, song) {

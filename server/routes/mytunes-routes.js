@@ -27,8 +27,8 @@ router.get('/api/songs/:songId', (req, res, next) => {
 // GET all mytunes songs at specific playlist id
 router.get('/api/playlists/:playlistId/songs', (req, res, next) => {
     Songs.find({ playlistId: req.params.playlistId })
-        .then(song => {
-            res.send(song)
+        .then(songs => {
+            res.send(songs)
         })
         .catch(err => {
             res.status(400).send({ Error: err })
@@ -59,6 +59,8 @@ router.get('/api/playlists/:playlistId', (req, res, next) => {
 
 // POST new song to mytunes
 router.post('/api/songs/', (req, res, next) => {
+    // Songs.find({}).then( add one to rank on each song
+    // to account for new song added at rank 0 )
     Songs.create(req.body)
         .then(song => {
             res.send(song)
@@ -81,6 +83,9 @@ router.post('/api/playlists/', (req, res, next) => {
 
 // DELETE song from mytunes
 router.delete('/api/songs/:songId', (req, res, next) => {
+    // Songs.find({rank > songToDelete.rank}).then( 
+    // subtract one from rank on each song to account 
+    // for removed song )
     Songs.findById(req.params.songId)
         .then(song => {
             song.remove()
@@ -94,6 +99,10 @@ router.delete('/api/songs/:songId', (req, res, next) => {
 // PUT mytunes song to edit rank
 // need to rewrite to target specific playlist?
 router.put('/api/songs/:songId', (req, res, next) => {
+    // add or subtract one from rank of song immediately
+    // above or below depending on whether promoted or
+    // demoted --- this should be split into 2 different
+    // routes
     Songs.findByIdAndUpdate(req.params.songId, req.body)
         .then(() => {
             res.send('Song successfully updated.')
