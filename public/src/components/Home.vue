@@ -28,7 +28,7 @@ export default {
 .my-tunes{
   display: inline-block;
   min-height: 500px;
-  min-width: 50%;
+  min-width: 100%;
   background: green;
 }
 
@@ -36,7 +36,7 @@ export default {
   display: inline-block;
   background: red;
   min-height: 500px;
-  min-width: 45%;
+  min-width: 100%;
 }
 
 </style>

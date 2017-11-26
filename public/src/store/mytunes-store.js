@@ -91,15 +91,16 @@ var store = new vuex.Store({
           dispatch('getMyTunes')
         })
     },
-    removeTrack({ commit, dispatch }, song) {
-      var url = `http://localhost:3000/api/songs/${song._id}`
+    removeTrack({ commit, dispatch }, payload) {
+      var url = `http://localhost:3000/api/songs/${payload.song._id}`
       $.ajax({
         url: url,
         method: 'DELETE'
       })
         .then(res => {
           console.log('removeTrack response: ', res)
-          dispatch('getMyTunes')
+          //dispatch('getMyTunes')
+          dispatch('rescaleTrackRanks', payload.songsToShift)
         })
       //Removes track from the database with delete
     },
@@ -140,6 +141,25 @@ var store = new vuex.Store({
             dispatch('getMyTunes')
           }
         })
+    },
+    rescaleTrackRanks({ commit, dispatch }, songs) {
+      if (songs.length > 0) {
+        var song = songs.pop()
+        var url = `http://localhost:3000/api/songs/${song._id}`
+        song.rank -= 1
+        $.ajax({
+          method: 'PUT',
+          contentType: 'application/json',
+          url: url, //baseUrl + '/' + i,
+          data: JSON.stringify(song)
+        })
+          .then(res => {
+            console.log('rescaleTrackRanks response: ', res)
+            dispatch('rescaleTrackRanks', songs)
+          })
+      } else {
+        dispatch('getMyTunes')
+      }
     }
 
   }

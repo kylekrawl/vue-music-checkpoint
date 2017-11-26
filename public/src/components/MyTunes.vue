@@ -39,7 +39,16 @@
         methods: {
             removeTrack(song) {
                 console.log('Clicked to remove: ', song.title)
-                this.$store.dispatch('removeTrack', song)
+
+                var songsToShift = []
+                for (var i = 0; i < this.$store.state.myTunes.length; i++) {
+                    var compareSong = this.$store.state.myTunes[i]
+                    if (compareSong.rank > song.rank) {
+                        songsToShift.push(compareSong)
+                    }
+                }
+
+                this.$store.dispatch('removeTrack', { song, songsToShift })
             },
             promoteTrack(song) {
                 console.log('Clicked to promote: ', song.title)

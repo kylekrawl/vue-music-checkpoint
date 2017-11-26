@@ -59,8 +59,6 @@ router.get('/api/playlists/:playlistId', (req, res, next) => {
 
 // POST new song to mytunes
 router.post('/api/songs/', (req, res, next) => {
-    // Songs.find({}).then( add one to rank on each song
-    // to account for new song added at rank 0 )
     Songs.create(req.body)
         .then(song => {
             res.send(song)
@@ -82,10 +80,8 @@ router.post('/api/playlists/', (req, res, next) => {
 })
 
 // DELETE song from mytunes
+
 router.delete('/api/songs/:songId', (req, res, next) => {
-    // Songs.find({rank > songToDelete.rank}).then( 
-    // subtract one from rank on each song to account 
-    // for removed song )
     Songs.findById(req.params.songId)
         .then(song => {
             song.remove()
