@@ -41,10 +41,9 @@ router.post('/api/mytunes/', (req, res, next) => {
 
 // DELETE song from mytunes
 router.delete('/api/mytunes/:songId', (req, res, next) => {
-    Songs.findById(req.params.songId)
-        .then(song => {
-            song.remove()
-            res.send({ message: 'Song successfully deleted.' })
+    Songs.findByIdAndRemove(req.params.songId)
+        .then(() => {
+            res.send({ message: '! DELETE FROM DATABASE: ! Song successfully deleted.' })
         })
         .catch(err => {
             res.status(400).send({ Error: err })

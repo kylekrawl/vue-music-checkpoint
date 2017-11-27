@@ -8,6 +8,7 @@
                         <div class="song-wrapper panel panel-default text-center">
                             <div class="panel-body">
                                 <p class="song-rank text-right">{{myTunes.length - myTune.rank}}</p>
+                                <!--<p class="song-rank text-right">{{myTune.rank}}</p>-->
                                 <i class="glyphicon glyphicon-trash pull-right" @click="removeTrack(myTune)"></i>
                                 <i class="glyphicon glyphicon-chevron-down pull-right" @click="demoteTrack(myTune)"></i>
                                 <i class="glyphicon glyphicon-chevron-up pull-right" @click="promoteTrack(myTune)"></i>

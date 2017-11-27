@@ -12,7 +12,7 @@ var store = new vuex.Store({
   mutations: {
     setResults(state, data) {
       state.results = data
-      console.log('itunes results: ', data)
+      console.log('itunes results from setResults: ', data)
     },
     setMyTunes(state, data) {
       // sort song array by rank
@@ -20,7 +20,7 @@ var store = new vuex.Store({
         return b.rank - a.rank
       })
       state.myTunes = data
-      console.log('myTunes results: ', data)
+      console.log('! MYTUNES GET REQUEST SUCCESSFUL: ! myTunes results from setMyTunes: ', data, 'number of items: ', data.length)
     }
   },
   actions: {
@@ -49,10 +49,11 @@ var store = new vuex.Store({
     getMyTunes({ commit, dispatch }) {
       var url = 'http://localhost:3000/api/mytunes'
       //this should send a get request to your server to return the list of saved tunes
-      $.get(url).then(data => {
-        console.log('myTunes data: ', data)
-        commit('setMyTunes', data)
-      })
+      $.get(url)
+        .then(data => {
+          console.log('myTunes data from getMyTunes: ', data)
+          commit('setMyTunes', data)
+        })
     },
     addToMyTunes({ commit, dispatch }, song) {
       //this will post to your server adding a new track to your tunes
@@ -128,6 +129,7 @@ var store = new vuex.Store({
         })
     },
     rescaleTrackRanks({ commit, dispatch }, songs) {
+      console.log("songs to rescale: ", songs)
       if (songs.length > 0) {
         var song = songs.pop()
         var url = `http://localhost:3000/api/mytunes/${song._id}`
@@ -143,6 +145,7 @@ var store = new vuex.Store({
             dispatch('rescaleTrackRanks', songs)
           })
       } else {
+        console.log("! NO TRACKS LEFT TO RESCALE: ! About to dispatch getMyTunes from rescaleTracks")
         dispatch('getMyTunes')
       }
     }
