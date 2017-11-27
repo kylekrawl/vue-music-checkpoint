@@ -4,20 +4,6 @@ import $ from 'jquery'
 
 vue.use(vuex)
 
-// Dummy mapped itunes api data: 
-/*
-{
-  title: "Glory Box",
-  albumArt: "//placehold.it/100x100",
-  artist: "Portishead",
-  album: "Dummy",
-  albumPrice: 10.00,
-  preview: "<broken>",
-  fileType: "song",
-  genre:"Trip Hop"
-}
-*/
-
 var store = new vuex.Store({
   state: {
     myTunes: [],
@@ -66,7 +52,6 @@ var store = new vuex.Store({
       $.get(url).then(data => {
         console.log('myTunes data: ', data)
         commit('setMyTunes', data)
-        //commit sort by rank mutation?
       })
     },
     addToMyTunes({ commit, dispatch }, song) {
@@ -81,7 +66,7 @@ var store = new vuex.Store({
         preview: song.preview,
         fileType: song.fileType,
         genre: song.genre,
-        playlistId: '5a14c1150d26d63be7193a88',
+        //playlistId: '5a14c1150d26d63be7193a88', // Needed for multiple playlist functionality (to be added)
         rank: song.rank
       }
       console.log('data to post: ', data)
@@ -110,7 +95,7 @@ var store = new vuex.Store({
       $.ajax({
         method: 'PUT',
         contentType: 'application/json',
-        url: url, //baseUrl + '/' + i,
+        url: url,
         data: JSON.stringify(payload.song)
       })
         .then(res => {
@@ -129,7 +114,7 @@ var store = new vuex.Store({
       $.ajax({
         method: 'PUT',
         contentType: 'application/json',
-        url: url, //baseUrl + '/' + i,
+        url: url,
         data: JSON.stringify(payload.song)
       })
         .then(res => {
@@ -150,7 +135,7 @@ var store = new vuex.Store({
         $.ajax({
           method: 'PUT',
           contentType: 'application/json',
-          url: url, //baseUrl + '/' + i,
+          url: url,
           data: JSON.stringify(song)
         })
           .then(res => {

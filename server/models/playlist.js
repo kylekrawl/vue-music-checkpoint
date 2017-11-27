@@ -1,14 +1,7 @@
+//For use with multiple playlist functionality (to be added)
+
 var mongoose = require('mongoose')
 var ObjectId = mongoose.SchemaTypes.ObjectId
-
-/*
-Dummy playlist JSON object for testing:
-
-{
-    "name": "Test Playlist"
-}
-
-*/
 
 var schema = new mongoose.Schema({
     name: { type: String, required: true }

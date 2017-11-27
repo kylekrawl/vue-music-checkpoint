@@ -40,8 +40,7 @@
         name: 'ITunes',
         data() {
             return {
-                search: {},
-                myTune: {}
+                search: {}
             }
         },
         methods: {
