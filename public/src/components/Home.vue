@@ -45,7 +45,7 @@ Components
 
   .my-tunes {
     display: inline-block;
-    min-height: 500px;
+    min-height: 300px;
     min-width: 100%;
     background: #000;
   }
@@ -85,9 +85,9 @@ Header Row
     color: #fff;
 }
 
-.header-row-background-default {
+.background-default {
     background: #000;
-    /*background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.9)), url("images/leaf-motif.png") center no-repeat;*/
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.9)), url("../assets/leaf-motif.png") center no-repeat;
     background-size: cover;
 }
 

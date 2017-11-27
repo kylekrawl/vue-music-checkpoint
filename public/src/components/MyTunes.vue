@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid songs-row-background-default">
+    <div class="container-fluid background-default">
         <div class="row mytunes-row">
             <h2 class="section-title text-center">myTunes</h2>
             <div class="col-xs-offset-1 col-xs-10 col-md-offset-2 col-md-8">
@@ -8,7 +8,6 @@
                         <div class="song-wrapper panel panel-default text-center">
                             <div class="panel-body">
                                 <p class="song-rank text-right">{{myTunes.length - myTune.rank}}</p>
-                                <!--<p class="song-rank text-right">{{myTune.rank}}</p>-->
                                 <i class="glyphicon glyphicon-trash pull-right" @click="removeTrack(myTune)"></i>
                                 <i class="glyphicon glyphicon-chevron-down pull-right" @click="demoteTrack(myTune)"></i>
                                 <i class="glyphicon glyphicon-chevron-up pull-right" @click="promoteTrack(myTune)"></i>

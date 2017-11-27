@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <div class="row header-row header-row-background-default text-center">
+        <div class="row header-row text-center">
             <h2 class="section-title text-center">Search Artists</h2>
             <div class="col-xs-offset-1 col-xs-10 col-md-offset-2 col-md-8">
                 <div class="header-wrapper">
@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-        <div class="row songs-row songs-row-background-default">
+        <div class="row songs-row">
             <div class="col-xs-offset-1 col-xs-10 col-md-offset-2 col-md-8">
                 <div class="row">
                     <div v-for="song in songs" class="col-sm-6 flex v-center h-center">
