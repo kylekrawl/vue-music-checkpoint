@@ -47,7 +47,7 @@ var store = new vuex.Store({
       })
     },
     getMyTunes({ commit, dispatch }) {
-      var url = 'http://localhost:3000/api/songs'
+      var url = 'http://localhost:3000/api/mytunes'
       //this should send a get request to your server to return the list of saved tunes
       $.get(url).then(data => {
         console.log('myTunes data: ', data)
@@ -56,7 +56,7 @@ var store = new vuex.Store({
     },
     addToMyTunes({ commit, dispatch }, song) {
       //this will post to your server adding a new track to your tunes
-      var url = 'http://localhost:3000/api/songs'
+      var url = 'http://localhost:3000/api/mytunes'
       var data = {
         title: song.title,
         albumArt: song.albumArt,
@@ -77,7 +77,7 @@ var store = new vuex.Store({
         })
     },
     removeTrack({ commit, dispatch }, payload) {
-      var url = `http://localhost:3000/api/songs/${payload.song._id}`
+      var url = `http://localhost:3000/api/mytunes/${payload.song._id}`
       $.ajax({
         url: url,
         method: 'DELETE'
@@ -91,7 +91,7 @@ var store = new vuex.Store({
     },
     promoteTrack({ commit, dispatch }, payload) {
       //this should increase the position / upvotes and downvotes on the track
-      var url = `http://localhost:3000/api/songs/${payload.song._id}`
+      var url = `http://localhost:3000/api/mytunes/${payload.song._id}`
       $.ajax({
         method: 'PUT',
         contentType: 'application/json',
@@ -110,7 +110,7 @@ var store = new vuex.Store({
     },
     demoteTrack({ commit, dispatch }, payload) {
       //this should decrease the position / upvotes and downvotes on the track
-      var url = `http://localhost:3000/api/songs/${payload.song._id}`
+      var url = `http://localhost:3000/api/mytunes/${payload.song._id}`
       $.ajax({
         method: 'PUT',
         contentType: 'application/json',
@@ -130,7 +130,7 @@ var store = new vuex.Store({
     rescaleTrackRanks({ commit, dispatch }, songs) {
       if (songs.length > 0) {
         var song = songs.pop()
-        var url = `http://localhost:3000/api/songs/${song._id}`
+        var url = `http://localhost:3000/api/mytunes/${song._id}`
         song.rank -= 1
         $.ajax({
           method: 'PUT',

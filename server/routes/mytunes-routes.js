@@ -2,8 +2,12 @@ var Songs = require('../models/song')
 var Playlists = require('../models/playlist')
 var router = require('express').Router()
 
+//////////////////////////////////////////
+// Single Playlist (MyTunes)
+//////////////////////////////////////////
+
 // GET all mytunes songs
-router.get('/api/songs/', (req, res, next) => {
+router.get('/api/mytunes/', (req, res, next) => {
     Songs.find({})
         .then(songs => {
             res.send(songs)
@@ -14,7 +18,7 @@ router.get('/api/songs/', (req, res, next) => {
 })
 
 // GET mytunes song at specific id
-router.get('/api/songs/:songId', (req, res, next) => {
+router.get('/api/mytunes/:songId', (req, res, next) => {
     Songs.findById(req.params.songId)
         .then(song => {
             res.send(song)
@@ -24,7 +28,45 @@ router.get('/api/songs/:songId', (req, res, next) => {
         })
 })
 
-// Routes needed for multiple playlists (to be added)
+// POST new song to mytunes
+router.post('/api/mytunes/', (req, res, next) => {
+    Songs.create(req.body)
+        .then(song => {
+            res.send(song)
+        })
+        .catch(err => {
+            res.status(400).send({ Error: err })
+        })
+})
+
+// DELETE song from mytunes
+router.delete('/api/mytunes/:songId', (req, res, next) => {
+    Songs.findById(req.params.songId)
+        .then(song => {
+            song.remove()
+            res.send({ message: 'Song successfully deleted.' })
+        })
+        .catch(err => {
+            res.status(400).send({ Error: err })
+        })
+})
+
+// PUT mytunes song to edit rank
+router.put('/api/mytunes/:songId', (req, res, next) => {
+    Songs.findByIdAndUpdate(req.params.songId, req.body)
+        .then(() => {
+            res.send('Song successfully updated.')
+        })
+        .catch(err => {
+            res.status(400).send({ Error: err })
+        })
+})
+
+
+//////////////////////////////////////////
+// Multiple Playlists
+//////////////////////////////////////////
+
 /*
 // GET all mytunes songs at specific playlist id
 router.get('/api/playlists/:playlistId/songs', (req, res, next) => {
@@ -70,39 +112,5 @@ router.post('/api/playlists/', (req, res, next) => {
         })
 })
 */
-
-// POST new song to mytunes
-router.post('/api/songs/', (req, res, next) => {
-    Songs.create(req.body)
-        .then(song => {
-            res.send(song)
-        })
-        .catch(err => {
-            res.status(400).send({ Error: err })
-        })
-})
-
-// DELETE song from mytunes
-router.delete('/api/songs/:songId', (req, res, next) => {
-    Songs.findById(req.params.songId)
-        .then(song => {
-            song.remove()
-            res.send({ message: 'Song successfully deleted.' })
-        })
-        .catch(err => {
-            res.status(400).send({ Error: err })
-        })
-})
-
-// PUT mytunes song to edit rank
-router.put('/api/songs/:songId', (req, res, next) => {
-    Songs.findByIdAndUpdate(req.params.songId, req.body)
-        .then(() => {
-            res.send('Song successfully updated.')
-        })
-        .catch(err => {
-            res.status(400).send({ Error: err })
-        })
-})
 
 module.exports = router
